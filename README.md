@@ -1,1 +1,1 @@
-# phonebook-vanilla-redux
+# goit-react-hw-06-phonebook
