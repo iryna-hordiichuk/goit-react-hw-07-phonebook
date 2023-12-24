@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Notify } from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/actions';
+import {addContact} from '../../redux/contactsSlice';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
