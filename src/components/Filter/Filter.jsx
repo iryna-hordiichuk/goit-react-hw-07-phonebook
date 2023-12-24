@@ -1,14 +1,15 @@
-import {useSelector, useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setFilter } from '../../redux/filterSlice';
+import { useFilter } from '../../redux/hooks';
 import { Container } from 'components/Container';
 import { FilterInput, FilterLabel } from './Filter.styled';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
-export const Filter = ({icon: Icon = null }) => {
+export const Filter = ({ icon: Icon = null }) => {
   const idForFilter = nanoid();
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.filter);
+  const filter = useFilter();
 
   return (
     <Container
@@ -17,7 +18,9 @@ export const Filter = ({icon: Icon = null }) => {
       flexDirection="column"
       justifyContent="center"
     >
-      <FilterLabel htmlFor={idForFilter}>{<Icon size={16} />} Find contacts by name</FilterLabel>
+      <FilterLabel htmlFor={idForFilter}>
+        {<Icon size={16} />} Find contacts by name
+      </FilterLabel>
       <FilterInput
         type="text"
         value={filter}
@@ -29,7 +32,6 @@ export const Filter = ({icon: Icon = null }) => {
 };
 
 Filter.propTypes = {
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };

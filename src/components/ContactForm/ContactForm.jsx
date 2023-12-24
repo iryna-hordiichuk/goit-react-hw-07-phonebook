@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Notify } from 'notiflix';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
+import { useContacts } from '../../redux/hooks';
 import {addContact} from '../../redux/contactsSlice';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -28,7 +29,7 @@ const initialValues = {
 
 export const Form = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useContacts();
 
   const handleSubmit = (values,{ resetForm }) => {
     const {name, number} = values;
