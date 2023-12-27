@@ -4,6 +4,7 @@ import { List } from './ContactList.styled';
 
 export const ContactList = () => {
   const contacts = useContacts();
+  console.log(contacts);
   const filter = useFilter();
 
   const getVisibleContacts = () => {
