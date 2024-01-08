@@ -11,6 +11,6 @@ const filterSlice = createSlice({
   },
 });
 
-// in setFilter uses mutable approach, Immer will update immutably under the hood
+// setFilter uses mutable approach, Immer will update immutably under the hood
 export const { setFilter } = filterSlice.actions;
 export const filterReducer = filterSlice.reducer;
