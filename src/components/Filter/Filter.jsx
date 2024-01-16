@@ -4,7 +4,7 @@ import { useFilter } from '../../redux/hooks';
 import { Container } from 'components/Container';
 import { FilterInput, FilterLabel } from './Filter.styled';
 import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
+
 
 export const Filter = ({ icon: Icon = null }) => {
   const idForFilter = nanoid();
@@ -31,7 +31,3 @@ export const Filter = ({ icon: Icon = null }) => {
   );
 };
 
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};

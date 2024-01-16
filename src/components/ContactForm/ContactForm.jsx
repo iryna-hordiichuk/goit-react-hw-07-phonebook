@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
-import { Notify } from 'notiflix';
-import { useDispatch} from 'react-redux';
+import { Notify} from 'notiflix';
+import { useDispatch } from 'react-redux';
 import { useContacts } from '../../redux/hooks';
-import {addContact} from '../../redux/operations';
+import { addContact } from '../../redux/operations';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -29,11 +28,11 @@ const initialValues = {
 
 export const Form = () => {
   const dispatch = useDispatch();
-  const contacts = useContacts();
+  const { items } = useContacts();
 
-  const handleSubmit = (values,{ resetForm }) => {
-    const {name, number} = values;
-    const isAdded = contacts.some(
+  const handleSubmit = (values, { resetForm }) => {
+    const { name, number } = values;
+    const isAdded = items.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
@@ -41,7 +40,7 @@ export const Form = () => {
       Notify.info(`${name} is already in contacts.`);
       return false;
     } else {
-      dispatch(addContact({"name": name, "number": number}));
+      dispatch(addContact({ name: name, number: number }));
       Notify.info(`${name} has been added to your Phonebook.`);
     }
     resetForm();
@@ -80,6 +79,3 @@ export const Form = () => {
   );
 };
 
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};

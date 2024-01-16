@@ -20,7 +20,7 @@ import contactsAPI from "../services/contactsAPI";
     async (contact, thunkAPI) => {
       try {
         const response = await contactsAPI.createContact(contact);
-        return response.data;
+        return response;
       } catch (e) {
         return thunkAPI.rejectWithValue(e.message);
       }
@@ -32,7 +32,7 @@ import contactsAPI from "../services/contactsAPI";
     async (contactId, thunkAPI) => {
       try {
         const response = await contactsAPI.removeContact(contactId)
-        return response.data;
+        return response;
       } catch (e) {
         return thunkAPI.rejectWithValue(e.message);
       }
