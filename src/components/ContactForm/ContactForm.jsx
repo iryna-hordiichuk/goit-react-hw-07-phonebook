@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Notify } from 'notiflix';
 import { useDispatch} from 'react-redux';
 import { useContacts } from '../../redux/hooks';
-import {addContact} from '../../redux/contactsSlice';
+import {addContact} from '../../redux/operations';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
