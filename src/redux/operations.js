@@ -17,9 +17,9 @@ import contactsAPI from "../services/contactsAPI";
   
   export const addContact = createAsyncThunk(
     "contacts/addContact",
-    async ({name, number}, thunkAPI) => {
+    async (contact, thunkAPI) => {
       try {
-        const response = await contactsAPI.createContact({name, number});
+        const response = await contactsAPI.createContact(contact);
         return response.data;
       } catch (e) {
         return thunkAPI.rejectWithValue(e.message);

@@ -41,7 +41,7 @@ export const Form = () => {
       Notify.info(`${name} is already in contacts.`);
       return false;
     } else {
-      dispatch(addContact(name, number));
+      dispatch(addContact({"name": name, "number": number}));
       Notify.info(`${name} has been added to your Phonebook.`);
     }
     resetForm();
