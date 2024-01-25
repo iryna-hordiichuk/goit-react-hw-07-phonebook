@@ -1,6 +1,6 @@
 import { Notify} from 'notiflix';
 import { useDispatch } from 'react-redux';
-import { useContacts } from '../../redux/hooks';
+import { useContacts } from '../../redux/hooks'
 import { addContact } from '../../redux/operations';
 import { Formik } from 'formik';
 import * as Yup from 'yup';

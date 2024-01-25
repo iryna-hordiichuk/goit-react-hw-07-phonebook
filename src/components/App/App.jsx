@@ -3,7 +3,7 @@ import { Form } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { PageTitle, SectionTitle } from './App.styled';
 import { FcSearch } from 'react-icons/fc';
-import { Container } from 'components/Container/Container.jsx';
+import { Container } from 'components/Container';
 
 export const App = () => {
   

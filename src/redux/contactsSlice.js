@@ -1,13 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchContacts, addContact, deleteContact} from "./operations";
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { fetchContacts, addContact, deleteContact } from './operations';
 
-const handlePending = state => {
-  state.isLoading = true;
+const extraActions = [fetchContacts, addContact, deleteContact];
+
+const getActions = type => isAnyOf(...extraActions.map(action => action[type]));
+
+const fetchContactsFulfilledReducer = (state, action) => {
+  state.items = action.payload;
 };
 
-const handleRejected = (state, action) => {
-  state.isLoading = false;
-  state.error = action.payload;
+const addContactFulfilledReducer = (state, action) => {
+  state.items.push(action.payload);
+};
+
+const deleteContactFulfilledReducer = (state, action) => {
+  const index = state.items.findIndex(contact => contact === action.payload.id);
+  state.items.splice(index, 1);
 };
 
 const initialState = {
@@ -17,35 +25,31 @@ const initialState = {
 };
 
 const contactsSlice = createSlice({
-  name: "contacts",
+  name: 'contacts',
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(fetchContacts.pending, handlePending)
-      .addCase(fetchContacts.fulfilled, (state, action) => {
+      .addCase(fetchContacts.fulfilled, fetchContactsFulfilledReducer)
+      .addCase(addContact.fulfilled, addContactFulfilledReducer)
+      .addCase(deleteContact.fulfilled, deleteContactFulfilledReducer)
+      .addMatcher(isAnyOf(getActions('pending')), state => {
+        state.isLoading = true;
+      })
+      .addMatcher(isAnyOf(getActions('rejected')), (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addMatcher(isAnyOf(getActions('fulfilled')), state => {
         state.isLoading = false;
         state.error = null;
-        state.items = action.payload;
-      })
-      .addCase(fetchContacts.rejected, handleRejected)
-      .addCase(addContact.pending, handlePending)
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.items.push(action.payload);
-      })
-      .addCase(addContact.rejected, handleRejected)
-      .addCase(deleteContact.pending, handlePending)
-      .addCase(deleteContact.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        const index = state.items.findIndex(
-          contact => contact.id === action.payload.id
-        );
-        state.items.splice(index, 1);
-      })
-      .addCase(deleteContact.rejected, handleRejected)
+      });
   },
 });
 
 export const contactsReducer = contactsSlice.reducer;
+
+// метод addMatcher - это возможность добавить какое-то кастомное условие
+// метчеры добавляются всегда вконце.
+// мепнули и вернули все которые пендинг (или реджектед, фулфиллед - что нужно)
+// расспыление нужно для того, чтобы передать, то что возвращает меп как отдельные аргументы функции
+//! елементы массива расспылились в аргументы, передали их как отдельные аргументы функции

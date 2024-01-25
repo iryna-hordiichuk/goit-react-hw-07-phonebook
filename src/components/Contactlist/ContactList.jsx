@@ -4,17 +4,17 @@ import { ContactItem } from 'components/ContactItem';
 import { List } from './ContactList.styled';
 import { useDispatch } from 'react-redux';
 import { fetchContacts } from '../../redux/operations';
-// import { Loading } from 'notiflix/build/notiflix-loading-aio';
+import { Loader } from 'components/Loader/Loader';
 
 export const ContactList = () => {
-  const { items, isLoading} = useContacts();
+  const { items, isLoading, isError } = useContacts();
   console.log(isLoading);
   const filter = useFilter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchContacts());
-  },[dispatch]);
+  }, [dispatch]);
 
   const getVisibleContacts = () => {
     const normalizedFilter = filter.trim().toLowerCase();
@@ -26,12 +26,15 @@ export const ContactList = () => {
   const visibleContacts = getVisibleContacts();
   return (
     <>
-    {/* {isLoading && Loading.standard('... Loading')} */}
-    <List>
-      {visibleContacts.map(({ id, name, number }) => (
-        <ContactItem key={id} name={name} number={number} id={id} />
-      ))}
-    </List>
+      {isLoading && <Loader />}
+      {visibleContacts.length === 0 && <div>There are no contacts yet</div>}
+      {isError && <div>Something went wrong, please try again</div>}
+      <List>
+        {visibleContacts.length > 0 &&
+          visibleContacts.map(({ id, name, number }) => (
+            <ContactItem key={id} name={name} number={number} id={id} />
+          ))}
+      </List>
     </>
   );
 };
